@@ -1,8 +1,15 @@
 import React, { useState } from "react"
 import Input from "./Input"
 import { Button } from "primereact/button"
+import useOnCreate from "../hooks/useOnCreate"
+import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { addEmployee } from "../redux/employeeSlice"
 
 export default function CreateEmployee() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const states = [
     {
       name: "Alabama",
@@ -267,25 +274,44 @@ export default function CreateEmployee() {
     startDate: "",
     street: "",
     city: "",
-    state: "",
-    zipCode: "",
-    department: "",
+    state: "Alabama",
+    zipCode: null,
+    department: "Sales",
   })
 
-  console.log(data)
+  console.log("data", data)
+
+  const [errors, setErrors] = useState({})
+
+  const { handleCreate } = useOnCreate()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    handleCreate(data, (validationErrors) => {
+      if (Object.keys(validationErrors).length === 0) {
+        setErrors({}) // Réinitialise les erreurs avant l'ajout
+        dispatch(addEmployee(data)) // Ajoute l'employé
+        navigate("/employees")
+      } else {
+        setErrors(validationErrors) // Garde les erreurs si présentes
+      }
+    })
+  }
 
   return (
     <div className="flex flex-column align-items-center">
       <h1>HRnet</h1>
       <a href="/employees">View Current Employees</a>
       <h2>Create Employee</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Input
           data={data}
           setData={setData}
           name={"firstName"}
           label={"First Name"}
           value={data.firstName}
+          error={errors.firstName}
         />
         <Input
           data={data}
@@ -293,6 +319,7 @@ export default function CreateEmployee() {
           name={"lastName"}
           label={"Last Name"}
           value={data.lastName}
+          error={errors.lastName}
         />
         <Input
           data={data}
@@ -318,6 +345,7 @@ export default function CreateEmployee() {
             name={"street"}
             label={"Street"}
             value={data.street}
+            error={errors.street}
           />
           <Input
             data={data}
@@ -325,6 +353,7 @@ export default function CreateEmployee() {
             name={"city"}
             label={"City"}
             value={data.city}
+            error={errors.city}
           />
           <Input
             type={"dropdown"}
@@ -332,15 +361,17 @@ export default function CreateEmployee() {
             setData={setData}
             options={states}
             label={"State"}
-            value={data.state}
+            value={data.state || "Alabama"}
             name={"state"}
           />
           <Input
+            type={"number"}
             data={data}
             setData={setData}
             name={"zipCode"}
             label={"Zip Code"}
             value={data.zipCode}
+            error={errors.zipCode} // Affichage de l'erreur si présente
           />
         </fieldset>
         <Input
@@ -349,7 +380,7 @@ export default function CreateEmployee() {
           setData={setData}
           options={departments}
           label={"Department"}
-          value={data.department}
+          value={data.department || "Sales"}
           name={"department"}
         />
         <div className="flex justify-content-center">

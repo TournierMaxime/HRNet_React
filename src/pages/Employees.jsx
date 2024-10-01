@@ -1,5 +1,12 @@
-import React from "react"
+import React, { Fragment } from "react"
+import Title from "../components/Title"
+import EmployeeList from "../components/EmployeeList"
 
 export default function Employees() {
-  return <div>Employees</div>
+  return (
+    <Fragment>
+      <Title title="Employees" />
+      <EmployeeList />
+    </Fragment>
+  )
 }
