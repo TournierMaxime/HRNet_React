@@ -279,8 +279,6 @@ export default function CreateEmployee() {
     department: "Sales",
   })
 
-  console.log("data", data)
-
   const [errors, setErrors] = useState({})
 
   const { handleCreate } = useOnCreate()
@@ -290,11 +288,11 @@ export default function CreateEmployee() {
 
     handleCreate(data, (validationErrors) => {
       if (Object.keys(validationErrors).length === 0) {
-        setErrors({}) // Réinitialise les erreurs avant l'ajout
-        dispatch(addEmployee(data)) // Ajoute l'employé
+        setErrors({})
+        dispatch(addEmployee(data))
         navigate("/employees")
       } else {
-        setErrors(validationErrors) // Garde les erreurs si présentes
+        setErrors(validationErrors)
       }
     })
   }
@@ -371,7 +369,7 @@ export default function CreateEmployee() {
             name={"zipCode"}
             label={"Zip Code"}
             value={data.zipCode}
-            error={errors.zipCode} // Affichage de l'erreur si présente
+            error={errors.zipCode}
           />
         </fieldset>
         <Input

@@ -20,13 +20,19 @@ export default function Input({
     setData,
   })
 
+  const parseDateFromString = (dateStr) => {
+    if (!dateStr) return null
+    const [year, month, day] = dateStr.split("-").map(Number)
+    return new Date(year, month - 1, day) // Convertir la chaîne de caractères en Date
+  }
+
   switch (type) {
     case "calendar":
       return (
         <div className="flex flex-column gap-2">
           <label htmlFor={name}>{label}</label>
           <Calendar
-            value={value}
+            value={parseDateFromString(value)}
             onChange={onChangeHandler}
             dateFormat="mm/dd/yy"
             className="mb-2"

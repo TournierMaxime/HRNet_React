@@ -6,7 +6,7 @@ import { Dropdown } from "primereact/dropdown"
 import { useSelector } from "react-redux"
 
 export default function EmployeeList() {
-  const employees = useSelector((state) => state.employee?.employees)
+  const employees = useSelector((state) => state?.employee?.employees)
 
   const [rows, setRows] = useState(10)
   const [searchTerm, setSearchTerm] = useState("")
@@ -37,6 +37,7 @@ export default function EmployeeList() {
       </div>
     )
   }
+
   return (
     <div className="flex flex-column align-items-center">
       <h2>Current Employees</h2>

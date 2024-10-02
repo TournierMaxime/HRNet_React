@@ -3,21 +3,21 @@ import { persistStore, persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import employeeReducer from "./employeeSlice"
 
+// Configuration de la persistance pour le réducteur des employés
 const persistConfig = {
-  key: "root",
+  key: "employee", // Spécifiez une clé pour éviter la collision avec d'autres parties du store
   storage,
 }
 
-const persistedReducer = persistReducer(persistConfig, employeeReducer)
+const persistedEmployeeReducer = persistReducer(persistConfig, employeeReducer)
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    employee: persistedEmployeeReducer, // Mettez le réducteur persisté ici
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        // Ignore ces actions spécifiques liées à redux-persist
-        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
-      },
+      serializableCheck: false, // Désactiver le contrôle de sérialisation si nécessaire
     }),
 })
 
