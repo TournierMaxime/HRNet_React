@@ -297,6 +297,8 @@ export default function CreateEmployee() {
     })
   }
 
+  console.log(data)
+
   return (
     <div className="flex flex-column align-items-center">
       <h1>HRnet</h1>

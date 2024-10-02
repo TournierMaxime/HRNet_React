@@ -23,7 +23,7 @@ export default function Input({
   const parseDateFromString = (dateStr) => {
     if (!dateStr) return null
     const [year, month, day] = dateStr.split("-").map(Number)
-    return new Date(year, month - 1, day) // Convertir la chaîne de caractères en Date
+    return new Date(year, month - 1, day)
   }
 
   switch (type) {
