@@ -274,7 +274,7 @@ export default function CreateEmployee() {
     startDate: "",
     street: "",
     city: "",
-    state: "Alabama",
+    state: "AL",
     zipCode: null,
     department: "Sales",
   })
@@ -361,8 +361,9 @@ export default function CreateEmployee() {
             setData={setData}
             options={states}
             label={"State"}
-            value={data.state || "Alabama"}
+            value={data.state}
             name={"state"}
+            optionValue="abbreviation"
           />
           <Input
             type={"number"}
@@ -380,8 +381,9 @@ export default function CreateEmployee() {
           setData={setData}
           options={departments}
           label={"Department"}
-          value={data.department || "Sales"}
+          value={data.department}
           name={"department"}
+          optionValue="name"
         />
         <div className="flex justify-content-center">
           <Button label="Save" />

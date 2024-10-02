@@ -14,6 +14,7 @@ export default function Input({
   setData,
   options,
   error,
+  optionValue,
 }) {
   const { onChangeHandler } = useOnChange({
     data,
@@ -48,7 +49,7 @@ export default function Input({
             value={value}
             options={options}
             optionLabel="name"
-            optionValue="name"
+            optionValue={optionValue}
             name={name}
             onChange={onChangeHandler}
             className="mb-2"
