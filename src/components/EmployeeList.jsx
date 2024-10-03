@@ -5,12 +5,26 @@ import { InputText } from "primereact/inputtext"
 import { Dropdown } from "primereact/dropdown"
 import { useSelector } from "react-redux"
 import moment from "moment/moment"
+import { FilterMatchMode } from "primereact/api"
 
 export default function EmployeeList() {
   const employees = useSelector((state) => state?.employee?.employees)
 
   const [rows, setRows] = useState(10)
-  const [searchTerm, setSearchTerm] = useState("")
+  const [globalFilterValue, setGlobalFilterValue] = useState("")
+
+  const [filters, setFilters] = useState({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    firstName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    lastName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    dateOfBirth: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    startDate: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    street: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    city: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    zipCode: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    state: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    department: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  })
 
   const rowsPerPageOptions = [
     { label: "10", value: 10 },
@@ -26,6 +40,16 @@ export default function EmployeeList() {
     return moment(newDate).format("DD/MM/YY")
   }
 
+  const onGlobalFilterChange = (e) => {
+    const value = e.target.value
+    let _filters = { ...filters }
+
+    _filters.global.value = value
+
+    setFilters(_filters)
+    setGlobalFilterValue(value)
+  }
+
   const renderHeader = () => {
     return (
       <div className="flex flex-wrap gap-2 justify-content-between align-items-center">
@@ -39,8 +63,8 @@ export default function EmployeeList() {
         <InputText
           placeholder="Keyword Search"
           icon="pi pi-search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={globalFilterValue}
+          onChange={onGlobalFilterChange}
         />
       </div>
     )
@@ -56,15 +80,19 @@ export default function EmployeeList() {
         ) : (
           <div className="card">
             <DataTable
-              value={employees?.filter(
-                (employee) =>
-                  employee.firstName
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()) ||
-                  employee.lastName
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()),
-              )}
+              value={employees}
+              globalFilterFields={[
+                "firstName",
+                "lastName",
+                "dateOfBirth",
+                "startDate",
+                "street",
+                "city",
+                "state",
+                "zipCode",
+                "department",
+              ]}
+              filters={filters}
               paginator
               rows={rows}
               tableStyle={{ minWidth: "50rem" }}
