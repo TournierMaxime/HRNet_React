@@ -11,6 +11,7 @@ export default function EmployeeList() {
   const employees = useSelector((state) => state?.employee?.employees)
 
   const [rows, setRows] = useState(10)
+  const [first, setFirst] = useState(0)
   const [globalFilterValue, setGlobalFilterValue] = useState("")
 
   const [filters, setFilters] = useState({
@@ -52,14 +53,18 @@ export default function EmployeeList() {
 
   const renderHeader = () => {
     return (
-      <div className="flex flex-wrap gap-2 justify-content-between align-items-center">
-        <Dropdown
-          value={rows}
-          options={rowsPerPageOptions}
-          onChange={(e) => setRows(e.value)}
-          placeholder="Rows per page"
-          className="mr-2"
-        />
+      <div className="flex justify-content-between">
+        <div>
+          <span className="mr-2">Show</span>
+          <Dropdown
+            value={rows}
+            options={rowsPerPageOptions}
+            onChange={(e) => setRows(e.value)}
+            placeholder="Rows per page"
+            className="mr-2"
+          />
+          <span>entries</span>
+        </div>
         <InputText
           placeholder="Keyword Search"
           icon="pi pi-search"
@@ -70,10 +75,25 @@ export default function EmployeeList() {
     )
   }
 
+  const paginatorLeftTemplate = (options) => {
+    const { first, rows, totalRecords } = options // Get first, rows, totalRecords from options
+    const last = Math.min(first + rows, totalRecords) // Calculate the last visible entry
+    return (
+      <span>
+        Showing {first + 1} to {last} of {totalRecords} entries
+      </span>
+    ) // Display first+1 to make it 1-based instead of 0-based
+  }
+
+  const onPageChange = (event) => {
+    setFirst(event.first)
+    setRows(event.rows)
+  }
+
   return (
     <div className="flex w-12">
-      <div className="flex sm:w-2"></div>
-      <div className="flex flex-column align-items-center sm:w-12 md:w-12">
+      <div className="flex w-2"></div>
+      <div className="flex flex-column align-items-center">
         <h2>Current Employees</h2>
         {employees?.length === 0 || employees === undefined ? (
           <p>No employees found</p>
@@ -94,11 +114,15 @@ export default function EmployeeList() {
               ]}
               filters={filters}
               paginator
+              paginatorLeft={paginatorLeftTemplate}
+              paginatorRight={null}
               rows={rows}
+              first={first}
               tableStyle={{ minWidth: "50rem" }}
               header={renderHeader}
-              paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
+              currentPageReportTemplate=""
+              onPage={onPageChange}
             >
               <Column field="firstName" header="First Name" sortable></Column>
               <Column field="lastName" header="Last Name" sortable></Column>
@@ -123,7 +147,7 @@ export default function EmployeeList() {
           </div>
         )}
       </div>
-      <div className="flex sm:w-2"></div>
+      <div className="flex w-2"></div>
     </div>
   )
 }
