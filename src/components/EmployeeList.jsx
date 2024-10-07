@@ -36,7 +36,6 @@ export default function EmployeeList() {
 
   const dateFormat = (date) => {
     const newDate = date.substr(0, 10)
-    console.log("newDate", newDate)
 
     return moment(newDate).format("DD/MM/YY")
   }
@@ -53,20 +52,20 @@ export default function EmployeeList() {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-content-between">
+      <div className="employee-list-header">
         <div>
-          <span className="mr-2">Show</span>
+          <span className="margin-right">Show</span>
           <Dropdown
             value={rows}
             options={rowsPerPageOptions}
             onChange={(e) => setRows(e.value)}
             placeholder="Rows per page"
-            className="mr-2"
+            className="margin-right"
           />
           <span>entries</span>
         </div>
         <InputText
-          placeholder="Keyword Search"
+          placeholder="Search"
           icon="pi pi-search"
           value={globalFilterValue}
           onChange={onGlobalFilterChange}
@@ -76,13 +75,13 @@ export default function EmployeeList() {
   }
 
   const paginatorLeftTemplate = (options) => {
-    const { first, rows, totalRecords } = options // Get first, rows, totalRecords from options
-    const last = Math.min(first + rows, totalRecords) // Calculate the last visible entry
+    const { first, rows, totalRecords } = options
+    const last = Math.min(first + rows, totalRecords)
     return (
       <span>
         Showing {first + 1} to {last} of {totalRecords} entries
       </span>
-    ) // Display first+1 to make it 1-based instead of 0-based
+    )
   }
 
   const onPageChange = (event) => {
@@ -91,63 +90,60 @@ export default function EmployeeList() {
   }
 
   return (
-    <div className="flex w-12">
-      <div className="flex w-2"></div>
-      <div className="flex flex-column align-items-center">
+    <div className="employee-list-container">
+      <div className="table">
         <h2>Current Employees</h2>
         {employees?.length === 0 || employees === undefined ? (
           <p>No employees found</p>
         ) : (
-          <div className="card">
-            <DataTable
-              value={employees}
-              globalFilterFields={[
-                "firstName",
-                "lastName",
-                "dateOfBirth",
-                "startDate",
-                "street",
-                "city",
-                "state",
-                "zipCode",
-                "department",
-              ]}
-              filters={filters}
-              paginator
-              paginatorLeft={paginatorLeftTemplate}
-              paginatorRight={null}
-              rows={rows}
-              first={first}
-              tableStyle={{ minWidth: "50rem" }}
-              header={renderHeader}
-              paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
-              currentPageReportTemplate=""
-              onPage={onPageChange}
-            >
-              <Column field="firstName" header="First Name" sortable></Column>
-              <Column field="lastName" header="Last Name" sortable></Column>
-              <Column
-                field="dateOfBirth"
-                header="Date of Birth"
-                sortable
-                body={(rowData) => dateFormat(rowData.dateOfBirth)}
-              ></Column>
-              <Column
-                field="startDate"
-                header="Start Date"
-                sortable
-                body={(rowData) => dateFormat(rowData.startDate)}
-              ></Column>
-              <Column field="street" header="Street" sortable></Column>
-              <Column field="city" header="City" sortable></Column>
-              <Column field="state" header="State" sortable></Column>
-              <Column field="zipCode" header="Zip Code" sortable></Column>
-              <Column field="department" header="Department" sortable></Column>
-            </DataTable>
-          </div>
+          <DataTable
+            value={employees}
+            globalFilterFields={[
+              "firstName",
+              "lastName",
+              "dateOfBirth",
+              "startDate",
+              "street",
+              "city",
+              "state",
+              "zipCode",
+              "department",
+            ]}
+            filters={filters}
+            paginator
+            paginatorLeft={paginatorLeftTemplate}
+            paginatorRight={null}
+            rows={rows}
+            first={first}
+            tableStyle={{ minWidth: "50rem" }}
+            header={renderHeader}
+            paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
+            currentPageReportTemplate=""
+            onPage={onPageChange}
+          >
+            <Column field="firstName" header="First Name" sortable></Column>
+            <Column field="lastName" header="Last Name" sortable></Column>
+            <Column
+              field="dateOfBirth"
+              header="Date of Birth"
+              sortable
+              body={(rowData) => dateFormat(rowData.dateOfBirth)}
+            ></Column>
+            <Column
+              field="startDate"
+              header="Start Date"
+              sortable
+              body={(rowData) => dateFormat(rowData.startDate)}
+            ></Column>
+            <Column field="street" header="Street" sortable></Column>
+            <Column field="city" header="City" sortable></Column>
+            <Column field="state" header="State" sortable></Column>
+            <Column field="zipCode" header="Zip Code" sortable></Column>
+            <Column field="department" header="Department" sortable></Column>
+          </DataTable>
         )}
       </div>
-      <div className="flex w-2"></div>
+      <a href="/">Home</a>
     </div>
   )
 }

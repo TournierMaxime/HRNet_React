@@ -5,6 +5,7 @@ import useOnCreate from "../hooks/useOnCreate"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { addEmployee } from "../redux/employeeSlice"
+import { Modal } from "tm-react-modal"
 
 export default function CreateEmployee() {
   const dispatch = useDispatch()
@@ -281,7 +282,18 @@ export default function CreateEmployee() {
 
   const [errors, setErrors] = useState({})
 
+  const [active, setActive] = useState(false)
+
   const { handleCreate } = useOnCreate()
+
+  const handleModal = () => {
+    setActive(!active)
+  }
+
+  const onCloseModal = () => {
+    setActive(false)
+    navigate("/employees")
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -290,17 +302,15 @@ export default function CreateEmployee() {
       if (Object.keys(validationErrors).length === 0) {
         setErrors({})
         dispatch(addEmployee(data))
-        navigate("/employees")
+        handleModal()
       } else {
         setErrors(validationErrors)
       }
     })
   }
 
-  console.log(data)
-
   return (
-    <div className="flex flex-column align-items-center">
+    <div className="create-employee-container">
       <h1>HRnet</h1>
       <a href="/employees">View Current Employees</a>
       <h2>Create Employee</h2>
@@ -385,10 +395,16 @@ export default function CreateEmployee() {
           name={"department"}
           optionValue="name"
         />
-        <div className="flex justify-content-center">
+        <div className="button-container">
           <Button label="Save" />
         </div>
       </form>
+      <Modal
+        show={active}
+        onClose={onCloseModal}
+        title={"Employee Created"}
+        message={"The new employee has been added to the list"}
+      />
     </div>
   )
 }

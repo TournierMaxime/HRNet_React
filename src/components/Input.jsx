@@ -30,20 +30,20 @@ export default function Input({
   switch (type) {
     case "calendar":
       return (
-        <div className="flex flex-column gap-2">
+        <div className="input-container">
           <label htmlFor={name}>{label}</label>
           <Calendar
             value={parseDateFromString(value)}
             onChange={onChangeHandler}
             dateFormat="mm/dd/yy"
-            className="mb-2"
+            className="margin-bottom"
             name={name}
           />
         </div>
       )
     case "dropdown":
       return (
-        <div className="flex flex-column gap-2">
+        <div className="input-container">
           <label htmlFor={name}>{label}</label>
           <Dropdown
             value={value}
@@ -52,19 +52,19 @@ export default function Input({
             optionValue={optionValue}
             name={name}
             onChange={onChangeHandler}
-            className="mb-2"
+            className="margin-bottom"
           />
         </div>
       )
     case "number":
       return (
-        <div className="flex flex-column gap-2">
+        <div className="input-container">
           <label htmlFor={name}>{label}</label>
           <InputNumber
             name={name}
             value={value}
             onValueChange={onChangeHandler}
-            className="mb-2"
+            className="margin-bottom"
             required
             useGrouping={false}
           />
@@ -73,16 +73,16 @@ export default function Input({
       )
     default:
       return (
-        <div className="flex flex-column gap-2">
+        <div className="input-container">
           <label htmlFor={name}>{label}</label>
           <InputText
             name={name}
             value={value}
             onChange={onChangeHandler}
-            className="mb-2"
+            className="margin-bottom"
             required
           />
-          {error && <small className="p-error">{error}</small>}
+          {error && <small className="error-message">{error}</small>}
         </div>
       )
   }
