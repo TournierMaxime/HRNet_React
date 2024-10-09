@@ -1,12 +1,17 @@
-import React, { Fragment } from "react"
+import React, { Fragment, Suspense, lazy } from "react"
 import Title from "../components/Title"
-import EmployeeList from "../components/EmployeeList"
+
+// Utilisation de React.lazy() pour charger EmployeeList
+const EmployeeList = lazy(() => import("../components/EmployeeList"))
 
 export default function Employees() {
   return (
     <Fragment>
       <Title title="Employees" />
-      <EmployeeList />
+
+      <Suspense fallback={<div>Loading employee datatable...</div>}>
+        <EmployeeList />
+      </Suspense>
     </Fragment>
   )
 }

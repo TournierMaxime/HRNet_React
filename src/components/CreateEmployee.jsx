@@ -313,7 +313,7 @@ export default function CreateEmployee() {
     <div className="create-employee-container">
       <h1>HRnet</h1>
       <a href="/employees">View Current Employees</a>
-      <h2>Create Employee</h2>
+      <h3>Create Employee</h3>
       <form onSubmit={handleSubmit}>
         <Input
           data={data}
