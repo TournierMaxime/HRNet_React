@@ -2,8 +2,8 @@
   "name": "hrnet_react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://tourniermaxime.github.io/HRNet_React/",
   "dependencies": {
+    "@faker-js/faker": "^9.0.3",
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -27,7 +27,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "add-employees": "node src/scripts/addEmployee.js"
   },
   "eslintConfig": {
     "extends": [

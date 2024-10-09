@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { persistStore, persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
-import employeeReducer from "./employeeSlice"
+import employeeReducer from "./employeeSlice.js"
 
 // Configuration de la persistance pour le réducteur des employés
 const persistConfig = {
@@ -13,11 +13,11 @@ const persistedEmployeeReducer = persistReducer(persistConfig, employeeReducer)
 
 export const store = configureStore({
   reducer: {
-    employee: persistedEmployeeReducer, // Mettez le réducteur persisté ici
+    employee: persistedEmployeeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Désactiver le contrôle de sérialisation si nécessaire
+      serializableCheck: false,
     }),
 })
 
