@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.p-paginator .p-dropdown {
+  display: none;
+}
+
 .create-employee-container {
   display: flex;
   flex-direction: column;

@@ -109,6 +109,7 @@ export default function EmployeeList() {
               "zipCode",
               "department",
             ]}
+            rowsPerPageOptions={rowsPerPageOptions}
             filters={filters}
             paginator
             paginatorLeft={paginatorLeftTemplate}
